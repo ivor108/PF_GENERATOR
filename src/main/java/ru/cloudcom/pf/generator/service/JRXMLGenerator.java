@@ -69,13 +69,14 @@ public class JRXMLGenerator {
                 for (Block block : step.getBlocks()) {
                     if (block.getIsVisiblePdf()) {
                         boolean isFirst = true;
-                        int heightHeadline = getHeightHeadline(ClearUtil.clearBlockName(block.getName()));
-                        if ((block.getFields().isEmpty() || !block.getIsVisiblePdf()) && (!block.getName().equals("") && !block.getName().equals("-"))) {
+                        if (block.getFields().isEmpty() && block.getName() != null && !block.getName().isEmpty()) {
+                            int heightHeadline = getHeightHeadline(ClearUtil.clearBlockName(block.getName()));
                             jrxmlConstructor.createDetailWithHeadline(writer, heightHeadline, ClearUtil.clearBlockName(block.getName()), block);
                         } else {
                             for (Field field : block.getFields()) {
                                 if (field.getIsVisiblePdf()) {
-                                    if (isFirst && !block.getName().equals("") && !block.getName().equals("-")) {
+                                    if (isFirst && block.getName() != null && !block.getName().isEmpty()) {
+                                        int heightHeadline = getHeightHeadline(ClearUtil.clearBlockName(block.getName()));
                                         jrxmlConstructor.createDetailWithHeadlineAndStandardLine(writer, field, getHeightLine(field), ClearUtil.clearBlockName(block.getName()), heightHeadline, block);
                                         isFirst = false;
                                     } else {
